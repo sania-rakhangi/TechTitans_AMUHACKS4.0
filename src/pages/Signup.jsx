@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { supabase } from "../utils/supabaseClient";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -76,33 +77,61 @@ const Signup = () => {
 
   const handlePrevStep = () => setStep(1);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const stepErrors = validateStep2();
     if (Object.keys(stepErrors).length > 0) {
       setErrors(stepErrors);
       return;
     }
+
     setIsSubmitting(true);
-    setTimeout(() => {
-      console.log("Signup submitted:", formData);
-      setIsSubmitting(false);
+
+    try {
+      const { data, error: signUpError } = await supabase.auth.signUp({
+        email: formData.email,
+        password: formData.password,
+        options: {
+          data: {
+            full_name: formData.fullName,
+            phone: formData.phone,
+          },
+        },
+      });
+
+      if (signUpError) throw signUpError;
+
+      const user = data.user;
+      if (!user) throw new Error("User not returned after signup.");
+
+      const { error: insertError } = await supabase.from("profiles").insert([
+        {
+          id: user.id,
+          full_name: formData.fullName,
+          phone: formData.phone,
+          role: formData.userType,
+          village: formData.village,
+          district: formData.district,
+          state: formData.state,
+        },
+      ]);
+
+      if (insertError) throw insertError;
+
       navigate("/onboarding");
-    }, 1500);
+    } catch (error) {
+      console.error("Signup failed:", error.message);
+      alert("Signup failed: " + error.message);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
-    <div className="min-h-screen flex justify-center items-center relative bg-blue-100 p-6">
-      <div className="absolute inset-0 z-0">
-        <div className="absolute top-0 w-full h-3/5 bg-gradient-to-b from-blue-400 to-blue-200"></div>
-        <div className="absolute bottom-[40%] w-full h-[30%] bg-green-700 clip-mountains"></div>
-        <div className="absolute bottom-0 w-full h-[40%] bg-green-500 clip-hills"></div>
-        <div className="absolute bottom-0 w-full h-[25%] bg-green-300 clip-fields"></div>
-      </div>
-
+    <div className="min-h-screen flex justify-center items-center relative bg-gradient-to-b from-accent-blue to-accent-green p-6 font-comfortaa">
       <div className="relative z-10 w-full max-w-xl bg-white rounded-2xl shadow-lg p-8">
         <div className="text-center mb-6">
-          <Link to="/" className="text-3xl font-bold text-green-700">
+          <Link to="/" className="text-3xl font-bold text-primary-dark">
             GaonLearn
           </Link>
           <h2 className="text-xl font-semibold mt-2">Join Our Community</h2>
@@ -115,7 +144,7 @@ const Signup = () => {
           <div className="flex items-center">
             <div
               className={`w-8 h-8 flex items-center justify-center rounded-full text-white ${
-                step >= 1 ? "bg-green-600" : "bg-gray-300"
+                step >= 1 ? "bg-primary-dark" : "bg-gray-300"
               }`}
             >
               1
@@ -126,7 +155,7 @@ const Signup = () => {
           <div className="flex items-center">
             <div
               className={`w-8 h-8 flex items-center justify-center rounded-full text-white ${
-                step >= 2 ? "bg-green-600" : "bg-gray-300"
+                step >= 2 ? "bg-primary-dark" : "bg-gray-300"
               }`}
             >
               2
@@ -190,7 +219,7 @@ const Signup = () => {
               <button
                 type="button"
                 onClick={handleNextStep}
-                className="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700"
+                className="w-full bg-primary-dark text-white py-2 rounded hover:bg-primary-medium"
               >
                 Continue
               </button>
@@ -205,7 +234,7 @@ const Signup = () => {
                       key={role}
                       className={`flex items-center space-x-2 p-2 border rounded cursor-pointer ${
                         formData.userType === role
-                          ? "border-green-600 bg-green-50"
+                          ? "border-primary-dark bg-green-50"
                           : "border-gray-300"
                       }`}
                     >
@@ -262,11 +291,11 @@ const Signup = () => {
                 />
                 <label htmlFor="agreeTerms" className="text-sm">
                   I agree to the{" "}
-                  <Link to="/terms" className="text-green-600 underline">
+                  <Link to="/terms" className="text-primary-dark underline">
                     Terms and Conditions
                   </Link>{" "}
                   and{" "}
-                  <Link to="/privacy" className="text-green-600 underline">
+                  <Link to="/privacy" className="text-primary-dark underline">
                     Privacy Policy
                   </Link>
                 </label>
@@ -285,7 +314,7 @@ const Signup = () => {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 disabled:opacity-50"
+                  className="bg-primary-dark text-white px-4 py-2 rounded hover:bg-primary-medium disabled:opacity-50"
                 >
                   {isSubmitting ? "Creating Account..." : "Create Account"}
                 </button>
@@ -296,7 +325,7 @@ const Signup = () => {
 
         <p className="mt-6 text-center text-sm text-gray-600">
           Already have an account?{" "}
-          <Link to="/login" className="text-green-600 underline">
+          <Link to="/login" className="text-primary-dark underline">
             Login
           </Link>
         </p>

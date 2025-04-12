@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 import LanguageSelector from "../components/LanguageSelector";
 import FeatureCard from "../components/cards/FeatureCard";
@@ -59,25 +58,18 @@ const Homepage = () => {
   ];
 
   return (
-    <div className="relative min-h-screen overflow-x-hidden bg-[#f5f3e8] text-[#2d3e4e] font-sans">
-      <NavBar activePage="Homepage" />
+    <div className="relative min-h-screen overflow-x-hidden bg-primary-light text-primary-dark font-sans">
       <main className="pb-16">
-        <section className="relative w-full h-[550px] overflow-hidden bg-[#87b2c0] mb-12">
-          {/* Rural Landscape Elements */}
-          <div className="absolute top-0 left-0 w-full h-[250px] bg-[#87b2c0] z-0" />
-          <div className="absolute top-[130px] w-full h-[140px] bg-[#5c6d63] clip-mountains z-0" />
-          <div className="absolute top-[200px] w-full h-[120px] bg-[#6c8976] clip-mountains z-0" />
-          <div className="absolute top-[250px] w-full h-[300px] bg-[#a7b691] clip-mountains z-0" />
-
+        <section className="relative w-full h-screen overflow-hidden bg-accent-blue mb-12">
           {/* Content Card */}
           <div className="relative z-10 max-w-5xl mx-auto mt-28 bg-white p-10 rounded-lg shadow-lg text-center">
-            <h1 className="text-4xl font-bold font-[Poppins] mb-4">
+            <h1 className="text-4xl font-bold font-poppins mb-4">
               Empowering Rural Education
             </h1>
             <h2 className="text-xl font-semibold mb-6">
               A multilingual learning platform designed for all ages
             </h2>
-            <button className="bg-[#e26d5a] text-white px-6 py-2 rounded-md hover:bg-[#cf5d4b] transition mb-6">
+            <button className="bg-accent-orange text-white px-6 py-2 rounded-md hover:bg-accent-orange transition mb-6">
               Start Learning
             </button>
             <LanguageSelector

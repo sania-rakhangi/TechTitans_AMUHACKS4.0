@@ -47,7 +47,7 @@ const NavBar = ({ activePage }) => {
     <nav className="bg-slate-800 text-white shadow-md z-50 relative">
       <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
         {/* Left: Logo */}
-        <div className="text-2xl font-bold font-[Comfortaa]">
+        <div className="text-2xl font-bold font-comfortaa">
           <Link
             to="/"
             className="text-white hover:text-pink-300 transition-colors"
@@ -77,13 +77,13 @@ const NavBar = ({ activePage }) => {
           ))}
         </ul>
 
-        {/* Right: Language Selector + Hamburger */}
+        {/* Right: Language Selector + Auth Buttons + Hamburger */}
         <div className="flex items-center space-x-4">
           {/* Language Selector */}
           <div className="relative language-selector">
             <button
               onClick={() => setLangDropdownOpen(!langDropdownOpen)}
-              className="flex items-center space-x-1 hover:text-pink-300"
+              className="flex items-center space-x-1 hover:text-pink-300 cursor-pointer"
             >
               <span>{language}</span>
               <svg
@@ -111,7 +111,7 @@ const NavBar = ({ activePage }) => {
                         setLanguage(lang);
                         setLangDropdownOpen(false);
                       }}
-                      className="block w-full text-left px-4 py-2 hover:bg-pink-100"
+                      className="block w-full text-left px-4 py-2 hover:bg-pink-100 cursor-pointer"
                     >
                       {lang}
                     </button>
@@ -121,55 +121,79 @@ const NavBar = ({ activePage }) => {
             )}
           </div>
 
-          {/* Hamburger Menu */}
-          <div
-            className="block md:hidden cursor-pointer"
-            onClick={() => setMenuOpen(!menuOpen)}
-          >
-            <div className={`w-8 h-5 relative ${menuOpen ? "open" : ""}`}>
-              <span
-                className="absolute top-0 left-0 w-full h-0.5 bg-white transition-transform duration-300"
-                style={
-                  menuOpen
-                    ? { transform: "rotate(45deg) translate(5px, 5px)" }
-                    : {}
-                }
-              ></span>
-              <span
-                className={`absolute top-2 left-0 w-full h-0.5 bg-white transition-opacity ${
-                  menuOpen ? "opacity-0" : "opacity-100"
-                }`}
-              ></span>
-              <span
-                className="absolute bottom-0 left-0 w-full h-0.5 bg-white transition-transform duration-300"
-                style={
-                  menuOpen
-                    ? { transform: "rotate(-45deg) translate(6px, -6px)" }
-                    : {}
-                }
-              ></span>
-            </div>
+          {/* Auth Buttons */}
+          <div className="flex space-x-2">
+            <Link
+              to="/login"
+              className="px-3 py-1 bg-accent-orange hover:bg-accent-orange text-white rounded cursor-pointer transition-colors"
+            >
+              Login
+            </Link>
+            <Link
+              to="/signup"
+              className="px-3 py-1 bg-white text-accent-orange hover:bg-pink-100 rounded cursor-pointer transition-colors"
+            >
+              Signup
+            </Link>
           </div>
+
+          {/* Hamburger Menu (for mobile, optional) */}
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            className="md:hidden focus:outline-none cursor-pointer"
+          >
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d={
+                  menuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"
+                }
+              />
+            </svg>
+          </button>
         </div>
       </div>
 
       {/* Mobile Menu */}
       {menuOpen && (
-        <div className="md:hidden bg-slate-800 py-4 px-6 space-y-4">
+        <div className="md:hidden bg-slate-800 text-white px-4 py-2 space-y-2">
           {navItems.map((item) => (
             <Link
               key={item.name}
               to={item.path}
-              onClick={() => setMenuOpen(false)}
-              className={`block text-lg ${
+              className={`block py-2 ${
                 activePage === item.name
                   ? "text-pink-300 font-semibold"
                   : "text-white"
-              } hover:text-pink-300 transition-colors`}
+              } hover:text-pink-300 cursor-pointer`}
+              onClick={() => setMenuOpen(false)}
             >
               {item.name}
             </Link>
           ))}
+
+          {/* Mobile Auth Buttons */}
+          <div className="flex space-x-2 mt-2">
+            <Link
+              to="/login"
+              className="flex-1 px-3 py-1 bg-accent-orange hover:bg-accent-orange text-white rounded cursor-pointer text-center"
+            >
+              Login
+            </Link>
+            <Link
+              to="/signup"
+              className="flex-1 px-3 py-1 bg-white text-accent-orange hover:bg-pink-100 rounded cursor-pointer text-center"
+            >
+              Signup
+            </Link>
+          </div>
         </div>
       )}
     </nav>
