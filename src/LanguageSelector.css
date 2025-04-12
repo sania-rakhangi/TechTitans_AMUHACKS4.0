@@ -1,0 +1,53 @@
+.language-selector {
+  position: relative;
+  z-index: 100;
+}
+
+.language-button {
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  border: 2px solid var(--primary-medium);
+  color: var(--primary-dark);
+  padding: 10px 15px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.language-button:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.dropdown-arrow {
+  margin-left: 8px;
+  font-size: 12px;
+}
+
+.language-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background-color: white;
+  border-radius: var(--radius-md);
+  margin-top: 5px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.language-option {
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.language-option:hover {
+  background-color: var(--primary-light);
+}
+
+.language-option.selected {
+  background-color: var(--accent-yellow);
+  font-weight: bold;
+}

@@ -1,0 +1,552 @@
+/* Base Styles */
+:root {
+  /* Color palette */
+  --primary-dark: #2d3e4e;
+  --primary-medium: #5c6d63;
+  --primary-light: #f5f3e8;
+  --accent-orange: #e26d5a;
+  --accent-yellow: #e9c46a;
+  --accent-blue: #87b2c0;
+  --accent-green: #a7b691;
+  --earth-brown: #c1774d;
+  --mountain-green: #6c8976;
+  --skin-tone: #d8a48f;
+  
+  /* Typography */
+  --font-heading: 'Poppins', Arial, sans-serif;
+  --font-body: 'Open Sans', Arial, sans-serif;
+  
+  /* Spacing */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-xxl: 48px;
+  
+  /* Border radius */
+  --radius-sm: 5px;
+  --radius-md: 10px;
+  --radius-lg: 20px;
+  --radius-full: 50%;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--primary-dark);
+  background-color: var(--primary-light);
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  margin-bottom: var(--spacing-md);
+}
+
+button {
+  cursor: pointer;
+  font-family: var(--font-body);
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Layout */
+.homepage {
+  position: relative;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+main {
+  padding-bottom: 60px; /* For footer space */
+}
+
+/* Navigation styles are in NavBar component */
+
+/* Hero Section */
+.hero-section {
+  position: relative;
+  width: 100%;
+  height: 550px;
+  overflow: hidden;
+  background-color: var(--accent-blue);
+  margin-bottom: var(--spacing-xxl);
+}
+
+/* Rural Landscape */
+.rural-landscape {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.sky {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 250px;
+  background-color: var(--accent-blue);
+}
+
+.mountains {
+  position: absolute;
+  top: 130px;
+  left: 0;
+  width: 100%;
+  height: 140px;
+  background-color: var(--primary-medium);
+  clip-path: polygon(0% 30%, 15% 0%, 33% 20%, 50% 0%, 67% 10%, 85% 0%, 100% 30%, 100% 100%, 0% 100%);
+}
+
+.hills {
+  position: absolute;
+  top: 200px;
+  left: 0;
+  width: 100%;
+  height: 120px;
+  background-color: var(--mountain-green);
+  clip-path: polygon(0% 30%, 15% 0%, 33% 20%, 50% 0%, 67% 10%, 85% 0%, 100% 30%, 100% 100%, 0% 100%);
+}
+
+.fields {
+  position: absolute;
+  top: 250px;
+  left: 0;
+  width: 100%;
+  height: 300px;
+  background-color: var(--accent-green);
+  clip-path: polygon(0% 30%, 15% 0%, 33% 20%, 50% 0%, 67% 10%, 85% 0%, 100% 30%, 100% 100%, 0% 100%);
+}
+
+/* Village Elements */
+.village-house {
+  position: absolute;
+  background-color: var(--earth-brown);
+  z-index: 2;
+}
+
+.house-1 {
+  width: 120px;
+  height: 80px;
+  top: 300px;
+  left: 200px;
+}
+
+.house-1::before {
+  content: '';
+  position: absolute;
+  top: -60px;
+  left: -10px;
+  width: 140px;
+  height: 60px;
+  background-color: #b76040;
+  clip-path: polygon(0% 100%, 50% 0%, 100% 100%);
+}
+
+.house-1::after {
+  content: '';
+  position: absolute;
+  top: 30px;
+  left: 40px;
+  width: 40px;
+  height: 50px;
+  background-color: var(--primary-medium);
+}
+
+.house-2 {
+  width: 100px;
+  height: 70px;
+  top: 280px;
+  right: 440px;
+  border-radius: var(--radius-sm);
+}
+
+.house-2::before {
+  content: '';
+  position: absolute;
+  top: -50px;
+  left: -10px;
+  width: 120px;
+  height: 50px;
+  background-color: #b76040;
+  clip-path: polygon(0% 100%, 50% 0%, 100% 100%);
+}
+
+.house-2::after {
+  content: '';
+  position: absolute;
+  top: 30px;
+  left: 35px;
+  width: 30px;
+  height: 40px;
+  background-color: var(--primary-medium);
+}
+
+.hut {
+  position: absolute;
+  top: 340px;
+  left: 600px;
+  width: 40px;
+  height: 60px;
+  background-color: var(--earth-brown);
+  border-radius: var(--radius-full);
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.school-building {
+  position: absolute;
+  top: 250px;
+  right: 140px;
+  width: 200px;
+  height: 130px;
+  background-color: var(--accent-yellow);
+  z-index: 2;
+}
+
+.school-building::before {
+  content: '';
+  position: absolute;
+  top: -60px;
+  left: 0;
+  width: 200px;
+  height: 60px;
+  background-color: var(--accent-orange);
+  clip-path: polygon(0% 100%, 50% 0%, 100% 100%);
+}
+
+.school-building::after {
+  content: '';
+  position: absolute;
+  top: 60px;
+  left: 75px;
+  width: 50px;
+  height: 70px;
+  background-color: var(--primary-medium);
+}
+
+/* Decorative Elements */
+.terracotta-pot {
+  position: absolute;
+  bottom: 100px;
+  left: 120px;
+  width: 30px;
+  height: 20px;
+  background-color: var(--earth-brown);
+  border-radius: 50% 50% 0 0;
+  z-index: 3;
+}
+
+.terracotta-pot::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 30px;
+  height: 5px;
+  background-color: #90634e;
+  border-radius: 50%;
+}
+
+.plant {
+  position: absolute;
+  bottom: 20px;
+  left: 5px;
+  width: 20px;
+  height: 25px;
+  background-color: transparent;
+}
+
+.plant::before, .plant::after {
+  content: '';
+  position: absolute;
+  width: 2px;
+  height: 30px;
+  background-color: var(--primary-medium);
+  bottom: 0;
+}
+
+.plant::before {
+  left: 5px;
+  transform: rotate(-15deg);
+}
+
+.plant::after {
+  right: 5px;
+  transform: rotate(15deg);
+}
+
+.villager {
+  position: absolute;
+  z-index: 3;
+}
+
+.villager-1 {
+  bottom: 100px;
+  left: 400px;
+}
+
+.villager-1::before {
+  content: '';
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  background-color: var(--skin-tone);
+  border-radius: var(--radius-full);
+}
+
+.villager-1::after {
+  content: '';
+  position: absolute;
+  top: 30px;
+  width: 30px;
+  height: 50px;
+  background-color: var(--accent-orange);
+}
+
+.villager-2 {
+  bottom: 120px;
+  right: 400px;
+}
+
+.villager-2::before {
+  content: '';
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  background-color: var(--skin-tone);
+  border-radius: var(--radius-full);
+}
+
+.villager-2::after {
+  content: '';
+  position: absolute;
+  top: 30px;
+  width: 30px;
+  height: 50px;
+  background-color: var(--mountain-green);
+}
+
+/* Content Card */
+.content-card {
+  position: relative;
+  z-index: 10;
+  width: 1000px;
+  margin: 110px auto 0;
+  padding: var(--spacing-xl);
+  background-color: white;
+  border-radius: var(--radius-md);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.content-card h1 {
+  font-size: 36px;
+  color: var(--primary-dark);
+  margin-bottom: var(--spacing-md);
+}
+
+.content-card h2 {
+  font-size: 20px;
+  color: var(--primary-medium);
+  font-weight: 400;
+  margin-bottom: var(--spacing-xl);
+}
+
+.cta-button {
+  padding: 15px 40px;
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
+  background-color: var(--accent-orange);
+  border: none;
+  border-radius: 30px;
+  margin-bottom: var(--spacing-lg);
+  transition: background-color 0.3s;
+}
+
+.cta-button:hover {
+  background-color: #d15a47;
+}
+
+
+
+/* Features Section */
+.features-section {
+  padding: var(--spacing-xxl) var(--spacing-lg);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.section-title {
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: var(--spacing-xl);
+  color: var(--primary-dark);
+}
+
+.features-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-xl);
+  justify-content: center;
+}
+
+/* Feature Card styles defined in FeatureCard component */
+
+/* Testimonials Section */
+.testimonials-section {
+  padding: var(--spacing-xxl) var(--spacing-lg);
+  background-color: var(--primary-light);
+}
+
+.testimonials-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-xl);
+  justify-content: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.testimonial {
+  flex: 1 1 500px;
+  max-width: 500px;
+  padding: var(--spacing-lg);
+  background-color: white;
+  border-radius: var(--radius-md);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.testimonial-image {
+  width: 100px;
+  height: 100px;
+  border-radius: var(--radius-full);
+  margin-bottom: var(--spacing-md);
+}
+
+.testimonial-image.teacher {
+  background-color: var(--accent-blue);
+}
+
+.testimonial-image.student {
+  background-color: var(--accent-yellow);
+}
+
+.testimonial blockquote {
+  font-style: italic;
+  text-align: center;
+  margin-bottom: var(--spacing-md);
+}
+
+.testimonial cite {
+  font-weight: bold;
+  color: var(--primary-medium);
+}
+
+/* Stats Section */
+.stats-section {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  padding: var(--spacing-xxl) var(--spacing-lg);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.stat-item {
+  flex: 1 1 200px;
+  max-width: 250px;
+  text-align: center;
+  padding: var(--spacing-lg);
+}
+
+.stat-number {
+  font-size: 48px;
+  font-weight: bold;
+  color: var(--accent-orange);
+  margin-bottom: var(--spacing-xs);
+}
+
+.stat-label {
+  font-size: 18px;
+  color: var(--primary-medium);
+}
+
+/* Footer styles are in Footer component */
+
+/* Responsive Adjustments */
+@media (max-width: 1200px) {
+  .content-card {
+    width: 90%;
+    margin-top: 90px;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-section {
+    height: 600px;
+  }
+  
+  .content-card {
+    margin-top: 50px;
+    padding: var(--spacing-lg);
+  }
+  
+  .content-card h1 {
+    font-size: 28px;
+  }
+  
+  .content-card h2 {
+    font-size: 18px;
+  }
+  
+  .accessibility-controls {
+    display: none; /* Move to a menu on mobile */
+  }
+  
+  .stat-item {
+    flex: 1 1 150px;
+  }
+}
+
+@media (max-width: 480px) {
+  .content-card h1 {
+    font-size: 24px;
+  }
+  
+  .cta-button {
+    padding: 12px 30px;
+    font-size: 18px;
+  }
+  
+  .features-container {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .stat-number {
+    font-size: 36px;
+  }
+  
+  .stat-label {
+    font-size: 16px;
+  }
+}
