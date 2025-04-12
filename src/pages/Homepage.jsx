@@ -30,7 +30,7 @@ const Homepage = () => {
       description:
         "Track progress, access lessons, and earn rewards through your learning journey",
       color: "#e9c46a",
-      link: "/student-dashboard",
+      link: "/student-dashboard", // Updated to match route in NavBar
     },
     {
       id: 2,
@@ -77,7 +77,10 @@ const Homepage = () => {
             <h2 className="text-xl font-semibold mb-6">
               A multilingual learning platform designed for all ages
             </h2>
-            <button className="bg-[#e26d5a] text-white px-6 py-2 rounded-md hover:bg-[#cf5d4b] transition mb-6">
+            <button 
+              onClick={() => window.location.href = "/student-dashboard"}
+              className="bg-[#e26d5a] text-white px-6 py-2 rounded-md hover:bg-[#cf5d4b] transition mb-6"
+            >
               Start Learning
             </button>
             <LanguageSelector
@@ -115,9 +118,9 @@ const Homepage = () => {
             <div className="bg-white p-6 rounded-lg shadow text-center">
               <div className="w-24 h-24 bg-gray-300 rounded-full mx-auto mb-4" />
               <blockquote className="italic">
-                “GaonLearn has transformed how I teach in our village school.
+                "GaonLearn has transformed how I teach in our village school.
                 Students are more engaged and learning outcomes have improved
-                dramatically.”
+                dramatically."
               </blockquote>
               <cite className="block mt-4 text-sm text-gray-600">
                 - Anita Sharma, Teacher, Rajasthan
@@ -126,8 +129,8 @@ const Homepage = () => {
             <div className="bg-white p-6 rounded-lg shadow text-center">
               <div className="w-24 h-24 bg-gray-300 rounded-full mx-auto mb-4" />
               <blockquote className="italic">
-                “I can now learn at my own pace and in my own language. The
-                interactive lessons make difficult concepts easy to understand.”
+                "I can now learn at my own pace and in my own language. The
+                interactive lessons make difficult concepts easy to understand."
               </blockquote>
               <cite className="block mt-4 text-sm text-gray-600">
                 - Rajesh Kumar, Student, Bihar

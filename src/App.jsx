@@ -4,7 +4,7 @@ import Homepage from "./pages/Homepage";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import TeacherPortal from "./pages/TeacherPortal";
-// import StudentDashboard from "./StudentDashboard";
+import StudentDashboard from "./pages/Studentdashboard/StudentPortal";
 // import TeacherPortal from "./TeacherPortal";
 // import FamilyLearning from "./FamilyLearning";
 // import Community from "./Community";
@@ -24,6 +24,9 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/teacher-portal" element={<TeacherPortal />} />
+          <Route path="/student-dashboard" element={<StudentDashboard />} />
+          
+          
           {/* <Route path="/student-dashboard" element={<StudentDashboard />} />
           <Route path="/teacher-portal" element={<TeacherPortal />} />
           <Route path="/family-learning" element={<FamilyLearning />} />
