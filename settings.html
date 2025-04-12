@@ -1,0 +1,814 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GaonLearn - Settings</title>
+  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-dark: #2d3e4e;
+      --primary-medium: #5c6d63;
+      --primary-light: #f5f3e8;
+      --accent-orange: #e26d5a;
+      --accent-yellow: #e9c46a;
+      --accent-blue: #87b2c0;
+      --accent-green: #a7b691;
+      --earth-brown: #c1774d;
+      --mountain-green: #6c8976;
+      --skin-tone: #d8a48f;
+      --radius: 0.8rem;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Comic Neue', cursive;
+    }
+
+    body {
+      background-color: var(--primary-light);
+      color: var(--primary-dark);
+      overflow-x: hidden;
+    }
+
+    /* Layout */
+    .app {
+      display: flex;
+      min-height: 100vh;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Background village illustration */
+    .background {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      opacity: 0.2;
+      background-image: url("data:image/svg+xml,%3Csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cpattern id='smallGrid' width='20' height='20' patternUnits='userSpaceOnUse'%3E%3Cpath d='M 20 0 L 0 0 0 20' fill='none' stroke='%236c8976' stroke-width='0.5'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='%23f5f3e8'/%3E%3Crect width='100%25' height='100%25' fill='url(%23smallGrid)'/%3E%3Ccircle cx='10%25' cy='80%25' r='60' fill='%23a7b691' opacity='0.3'/%3E%3Cpath d='M80,45 L110,75 L50,75 Z' fill='%236c8976' opacity='0.3'/%3E%3Cpath d='M150,65 L170,85 L130,85 Z' fill='%236c8976' opacity='0.3'/%3E%3Cpath d='M70,120 L100,90 L130,120 Z' fill='%23e9c46a' opacity='0.3'/%3E%3Crect x='200' y='120' width='40' height='30' fill='%23e26d5a' opacity='0.3'/%3E%3Crect x='30' y='160' width='50' height='40' fill='%23c1774d' opacity='0.3'/%3E%3C/svg%3E");
+      background-size: cover;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 90px;
+      height: 100vh;
+      background: linear-gradient(to bottom, var(--accent-blue), var(--mountain-green));
+      border-radius: 0 24px 24px 0;
+      box-shadow: 2px 0 15px rgba(0, 0, 0, 0.1);
+      z-index: 10;
+      padding: 24px 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: sticky;
+      top: 0;
+    }
+
+    @media (min-width: 768px) {
+      .sidebar {
+        width: 200px;
+      }
+    }
+
+    /* Avatar */
+    .avatar-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 40px;
+    }
+
+    .avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background-color: var(--primary-light);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+      overflow: hidden;
+      border: 4px solid var(--accent-yellow);
+      margin-bottom: 8px;
+      position: relative;
+    }
+
+    .avatar-face {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background-color: var(--skin-tone);
+      position: relative;
+    }
+
+    .avatar-eye-left {
+      position: absolute;
+      top: 25%;
+      left: 25%;
+      width: 8px;
+      height: 8px;
+      background-color: black;
+      border-radius: 50%;
+    }
+
+    .avatar-eye-right {
+      position: absolute;
+      top: 25%;
+      right: 25%;
+      width: 8px;
+      height: 8px;
+      background-color: black;
+      border-radius: 50%;
+    }
+
+    .avatar-mouth {
+      position: absolute;
+      bottom: 25%;
+      left: 35%;
+      right: 35%;
+      height: 8px;
+      background-color: black;
+      border-radius: 4px;
+    }
+
+    .avatar-name {
+      color: var(--primary-light);
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    /* Navigation */
+    .nav {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .nav-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      font-size: 24px;
+    }
+
+    .nav-icon.active {
+      background-color: var(--accent-yellow);
+      color: var(--primary-dark);
+    }
+
+    .nav-icon:not(.active) {
+      background-color: rgba(245, 243, 232, 0.3);
+      color: var(--primary-light);
+    }
+
+    .nav-icon:not(.active):hover {
+      background-color: rgba(245, 243, 232, 0.5);
+    }
+
+    .nav-label {
+      margin-top: 4px;
+      font-size: 14px;
+      color: var(--primary-light);
+      opacity: 0.8;
+      display: none;
+    }
+
+    .nav-label.active {
+      color: var(--accent-yellow);
+    }
+
+    @media (min-width: 768px) {
+      .nav-label {
+        display: block;
+      }
+    }
+
+    .map-button {
+      margin-top: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .map-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background-color: var(--accent-orange);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary-light);
+    }
+
+    .map-label {
+      margin-top: 4px;
+      font-size: 12px;
+      color: var(--primary-light);
+      display: none;
+    }
+
+    @media (min-width: 768px) {
+      .map-label {
+        display: block;
+      }
+    }
+
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      padding: 16px;
+      overflow-y: auto;
+      z-index: 10;
+    }
+
+    @media (min-width: 768px) {
+      .main-content {
+        padding: 32px;
+      }
+    }
+
+    /* Header */
+    .header {
+      margin-bottom: 32px;
+    }
+
+    .header h1 {
+      font-size: 28px;
+      font-weight: bold;
+      color: var(--primary-dark);
+    }
+
+    .settings-description {
+      color: var(--primary-medium);
+      margin-top: 8px;
+    }
+
+    /* Settings Section */
+    .settings-section {
+      background-color: white;
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .settings-section-title {
+      font-size: 20px;
+      font-weight: bold;
+      color: var(--primary-dark);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+    }
+
+    .settings-section-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 12px;
+      color: white;
+    }
+
+    /* Setting Item */
+    .setting-item {
+      padding: 16px;
+      border-bottom: 1px solid var(--primary-light);
+    }
+
+    .setting-item:last-child {
+      border-bottom: none;
+    }
+
+    .setting-flex {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .setting-info {
+      max-width: 70%;
+    }
+
+    .setting-title {
+      font-weight: bold;
+      margin-bottom: 4px;
+      color: var(--primary-dark);
+    }
+
+    .setting-description {
+      font-size: 14px;
+      color: var(--primary-medium);
+    }
+
+    /* Toggle Switch */
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 48px;
+      height: 24px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+      border-radius: 24px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 16px;
+      width: 16px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+
+    input:checked + .slider {
+      background-color: var(--accent-blue);
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(24px);
+    }
+
+    /* Select Style */
+    .select-wrapper {
+      position: relative;
+      min-width: 150px;
+    }
+
+    .settings-select {
+      appearance: none;
+      background-color: var(--primary-light);
+      border: none;
+      padding: 8px 12px;
+      width: 100%;
+      border-radius: 8px;
+      font-family: 'Comic Neue', cursive;
+      cursor: pointer;
+    }
+
+    .select-arrow {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      pointer-events: none;
+    }
+
+    /* Range Slider */
+    .range-slider {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 8px;
+      border-radius: 4px;
+      background: var(--primary-light);
+      outline: none;
+      margin: 8px 0;
+    }
+
+    .range-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--accent-orange);
+      cursor: pointer;
+    }
+
+    .range-values {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--primary-medium);
+    }
+
+    /* Buttons */
+    .setting-buttons {
+      display: flex;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .btn {
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s ease;
+    }
+
+    .btn-primary {
+      background-color: var(--accent-blue);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background-color: #6a9eaf;
+    }
+
+    .btn-secondary {
+      background-color: var(--primary-light);
+      color: var(--primary-dark);
+      border: 1px solid var(--primary-medium);
+    }
+
+    .btn-secondary:hover {
+      background-color: #ebe9de;
+    }
+
+    .btn-danger {
+      background-color: #ff6b6b;
+      color: white;
+    }
+
+    .btn-danger:hover {
+      background-color: #ff5252;
+    }
+
+    /* AI Tutor */
+    .ai-tutor {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 20;
+    }
+
+    .ai-tutor-button {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background-color: var(--accent-orange);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .ai-tutor-button:hover {
+      background-color: #d55d4a;
+    }
+
+    .ai-tutor-icon {
+      color: var(--primary-light);
+      font-size: 28px;
+    }
+
+    .ai-tutor-tooltip {
+      position: absolute;
+      bottom: 100%;
+      right: 0;
+      margin-bottom: 8px;
+      background-color: var(--primary-light);
+      color: var(--primary-dark);
+      border-radius: 8px;
+      padding: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+      white-space: nowrap;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+
+    .ai-tutor-button:hover .ai-tutor-tooltip {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <!-- Background village illustration -->
+    <div class="background"></div>
+    
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <!-- Avatar and Name -->
+      <div class="avatar-container">
+        <div class="avatar">
+          <div class="avatar-face">
+            <div class="avatar-eye-left"></div>
+            <div class="avatar-eye-right"></div>
+            <div class="avatar-mouth"></div>
+          </div>
+        </div>
+        <h3 class="avatar-name">Raju</h3>
+      </div>
+      
+      <!-- Navigation -->
+      <nav class="nav">
+        <a href="index.html" class="nav-item">
+          <div class="nav-icon">🏠</div>
+          <span class="nav-label">Home</span>
+        </a>
+        <a href="subjects.html" class="nav-item">
+          <div class="nav-icon">📚</div>
+          <span class="nav-label">Subjects</span>
+        </a>
+        <a href="#" class="nav-item">
+          <div class="nav-icon">🏆</div>
+          <span class="nav-label">Badges</span>
+        </a>
+        <a href="settings.html" class="nav-item">
+          <div class="nav-icon active">⚙️</div>
+          <span class="nav-label active">Settings</span>
+        </a>
+      </nav>
+      
+      <a href="#" class="map-button">
+        <div class="map-icon">📍</div>
+        <span class="map-label">Village Map</span>
+      </a>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+      <!-- Header -->
+      <div class="header">
+        <h1>Settings</h1>
+        <p class="settings-description">Change how GaonLearn works for you</p>
+      </div>
+      
+      <!-- Account Settings -->
+      <div class="settings-section">
+        <div class="settings-section-title">
+          <div class="settings-section-icon" style="background-color: var(--accent-blue);">👤</div>
+          Account Settings
+        </div>
+        
+        <div class="setting-item">
+          <a href="profile.html" class="setting-flex">
+            <div class="setting-info">
+              <div class="setting-title">Profile Information</div>
+              <p class="setting-description">Change your name, avatar, and age</p>
+            </div>
+            <div>▶</div>
+          </a>
+        </div>
+        
+        <div class="setting-item">
+          <div class="setting-flex">
+            <div class="setting-info">
+              <div class="setting-title">Parent Email</div>
+              <p class="setting-description">parentemail@example.com</p>
+            </div>
+            <div>▶</div>
+          </div>
+        </div>
+        
+        <div class="setting-item">
+          <div class="setting-flex">
+            <div class="setting-info">
+              <div class="setting-title">Change Password</div>
+              <p class="setting-description">Update your account password</p>
+            </div>
+            <div>▶</div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- App Settings -->
+      <div class="settings-section">
+        <div class="settings-section-title">
+          <div class="settings-section-icon" style="background-color: var(--accent-yellow);">📱</div>
+          App Settings
+        </div>
+        
+        <div class="setting-item">
+          <div class="setting-flex">
+            <div class="setting-info">
+              <div class="setting-title">Language</div>
+              <p class="setting-description">Choose the app language</p>
+            </div>
+            <div class="select-wrapper">
+              <select class="settings-select">
+                <option value="en">English</option>
+                <option value="hi">Hindi</option>
+                <option value="ta">Tamil</option>
+                <option value="te">Telugu</option>
+                <option value="kn">Kannada</option>
+              </select>
+              <span class="select-arrow">▼</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="setting-item">
+          <div class="setting-flex">
+            <div class="setting-info">
+              <div class="setting-title">Text Size</div>
+              <p class="setting-description">Adjust the size of text in the app</p>
+            </div>
+            <div style="width: 150px;">
+              <input type="range" min="1" max="5" value="3" class="range-slider">
+              <div class="range-values">
+                <span>Small</span>
+                <span>Large</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="setting-item">
+          <div class="setting-flex">
+            <div class="setting-info">
+              <div class="setting-title">Offline Mode</div>
+              <p class="setting-description">Download lessons for offline use</p>
+            </div>
+            <label class="switch">
+              <input type="checkbox">
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+        
+        <div class="setting-item">
+          <div class="setting-flex">
+            <div class="setting-info">
+              <div class="setting-title">Color Theme</div>
+              <p class="setting-description">Choose your app theme</p>
+            </div>
+            <div class="select-wrapper">
+              <select class="settings-select">
+                <option value="default">Village Theme</option>
+                <option value="ocean">Ocean Theme</option>
+                <option value="forest">Forest Theme</option>
+                <option value="sky">Sky Theme</option>
+              </select>
+              <span class="select-arrow">▼</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Notification Settings -->
+      <div class="settings-section">
+        <div class="settings-section-title">
+          <div class="settings-section-icon" style="background-color: var(--accent-orange);">🔔</div>
+          Notification Settings
+        </div>
+        
+        <div class="setting-item">
+          <div class="setting-flex">
+            <div class="setting-info">
+              <div class="setting-title">Daily Reminders</div>
+              <p class="setting-description">Remind me to learn every day</p>
+            </div>
+            <label class="switch">
+              <input type="checkbox" checked>
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+        
+        <div class="setting-item">
+          <div class="setting-flex">
+            <div class="setting-info">
+              <div class="setting-title">Reminder Time</div>
+              <p class="setting-description">When to send daily reminders</p>
+            </div>
+            <div class="select-wrapper">
+              <select class="settings-select">
+                <option value="morning">Morning (9 AM)</option>
+                <option value="afternoon">Afternoon (3 PM)</option>
+                <option value="evening" selected>Evening (6 PM)</option>
+              </select>
+              <span class="select-arrow">▼</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="setting-item">
+          <div class="setting-flex">
+            <div class="setting-info">
+              <div class="setting-title">Progress Updates</div>
+              <p class="setting-description">Send weekly progress updates</p>
+            </div>
+            <label class="switch">
+              <input type="checkbox" checked>
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+        
+        <div class="setting-item">
+          <div class="setting-flex">
+            <div class="setting-info">
+              <div class="setting-title">New Content Alerts</div>
+              <p class="setting-description">Notify when new lessons are available</p>
+            </div>
+            <label class="switch">
+              <input type="checkbox" checked>
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Privacy Settings -->
+      <div class="settings-section">
+        <div class="settings-section-title">
+          <div class="settings-section-icon" style="background-color: var(--accent-green);">🔒</div>
+          Privacy & Safety
+        </div>
+        
+        <div class="setting-item">
+          <div class="setting-flex">
+            <div class="setting-info">
+              <div class="setting-title">Child Protection Mode</div>
+              <p class="setting-description">Enable additional safety filters</p>
+            </div>
+            <label class="switch">
+              <input type="checkbox" checked>
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+        
+        <div class="setting-item">
+          <div class="setting-flex">
+            <div class="setting-info">
+              <div class="setting-title">Data Usage</div>
+              <p class="setting-description">How we use your data to improve the app</p>
+            </div>
+            <div>▶</div>
+          </div>
+        </div>
+        
+        <div class="setting-item">
+          <div class="setting-flex">
+            <div class="setting-info">
+              <div class="setting-title">Privacy Policy</div>
+              <p class="setting-description">Read our privacy policy</p>
+            </div>
+            <div>▶</div>
+          </div>
+        </div>
+        
+        <div class="setting-item">
+          <div class="setting-flex">
+            <div class="setting-info">
+              <div class="setting-title">Delete Account</div>
+              <p class="setting-description">Remove all your data and delete account</p>
+            </div>
+            <button class="btn btn-danger">Delete</button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Save Settings -->
+      <div class="setting-buttons">
+        <button class="btn btn-primary">Save Changes</button>
+        <button class="btn btn-secondary">Reset to Default</button>
+      </div>
+    </div>
+    
+    <!-- AI Tutor Icon -->
+    <div class="ai-tutor">
+      <div class="ai-tutor-button">
+        <div class="ai-tutor-icon">🎤</div>
+        <div class="ai-tutor-tooltip">
+          <p class="font-bold">Ask me anything!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

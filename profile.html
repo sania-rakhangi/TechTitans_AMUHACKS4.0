@@ -1,0 +1,965 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GaonLearn - My Profile</title>
+  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-dark: #2d3e4e;
+      --primary-medium: #5c6d63;
+      --primary-light: #f5f3e8;
+      --accent-orange: #e26d5a;
+      --accent-yellow: #e9c46a;
+      --accent-blue: #87b2c0;
+      --accent-green: #a7b691;
+      --earth-brown: #c1774d;
+      --mountain-green: #6c8976;
+      --skin-tone: #d8a48f;
+      --radius: 0.8rem;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Comic Neue', cursive;
+    }
+
+    body {
+      background-color: var(--primary-light);
+      color: var(--primary-dark);
+      overflow-x: hidden;
+    }
+
+    /* Layout */
+    .app {
+      display: flex;
+      min-height: 100vh;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Background village illustration */
+    .background {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      opacity: 0.2;
+      background-image: url("data:image/svg+xml,%3Csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cpattern id='smallGrid' width='20' height='20' patternUnits='userSpaceOnUse'%3E%3Cpath d='M 20 0 L 0 0 0 20' fill='none' stroke='%236c8976' stroke-width='0.5'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='%23f5f3e8'/%3E%3Crect width='100%25' height='100%25' fill='url(%23smallGrid)'/%3E%3Ccircle cx='10%25' cy='80%25' r='60' fill='%23a7b691' opacity='0.3'/%3E%3Cpath d='M80,45 L110,75 L50,75 Z' fill='%236c8976' opacity='0.3'/%3E%3Cpath d='M150,65 L170,85 L130,85 Z' fill='%236c8976' opacity='0.3'/%3E%3Cpath d='M70,120 L100,90 L130,120 Z' fill='%23e9c46a' opacity='0.3'/%3E%3Crect x='200' y='120' width='40' height='30' fill='%23e26d5a' opacity='0.3'/%3E%3Crect x='30' y='160' width='50' height='40' fill='%23c1774d' opacity='0.3'/%3E%3C/svg%3E");
+      background-size: cover;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 90px;
+      height: 100vh;
+      background: linear-gradient(to bottom, var(--accent-blue), var(--mountain-green));
+      border-radius: 0 24px 24px 0;
+      box-shadow: 2px 0 15px rgba(0, 0, 0, 0.1);
+      z-index: 10;
+      padding: 24px 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: sticky;
+      top: 0;
+    }
+
+    @media (min-width: 768px) {
+      .sidebar {
+        width: 200px;
+      }
+    }
+
+    /* Avatar */
+    .avatar-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 40px;
+    }
+
+    .avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background-color: var(--primary-light);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+      overflow: hidden;
+      border: 4px solid var(--accent-yellow);
+      margin-bottom: 8px;
+      position: relative;
+    }
+
+    .avatar-face {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background-color: var(--skin-tone);
+      position: relative;
+    }
+
+    .avatar-eye-left {
+      position: absolute;
+      top: 25%;
+      left: 25%;
+      width: 8px;
+      height: 8px;
+      background-color: black;
+      border-radius: 50%;
+    }
+
+    .avatar-eye-right {
+      position: absolute;
+      top: 25%;
+      right: 25%;
+      width: 8px;
+      height: 8px;
+      background-color: black;
+      border-radius: 50%;
+    }
+
+    .avatar-mouth {
+      position: absolute;
+      bottom: 25%;
+      left: 35%;
+      right: 35%;
+      height: 8px;
+      background-color: black;
+      border-radius: 4px;
+    }
+
+    .avatar-name {
+      color: var(--primary-light);
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    /* Navigation */
+    .nav {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .nav-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      font-size: 24px;
+    }
+
+    .nav-icon.active {
+      background-color: var(--accent-yellow);
+      color: var(--primary-dark);
+    }
+
+    .nav-icon:not(.active) {
+      background-color: rgba(245, 243, 232, 0.3);
+      color: var(--primary-light);
+    }
+
+    .nav-icon:not(.active):hover {
+      background-color: rgba(245, 243, 232, 0.5);
+    }
+
+    .nav-label {
+      margin-top: 4px;
+      font-size: 14px;
+      color: var(--primary-light);
+      opacity: 0.8;
+      display: none;
+    }
+
+    .nav-label.active {
+      color: var(--accent-yellow);
+    }
+
+    @media (min-width: 768px) {
+      .nav-label {
+        display: block;
+      }
+    }
+
+    .map-button {
+      margin-top: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .map-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background-color: var(--accent-orange);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary-light);
+    }
+
+    .map-label {
+      margin-top: 4px;
+      font-size: 12px;
+      color: var(--primary-light);
+      display: none;
+    }
+
+    @media (min-width: 768px) {
+      .map-label {
+        display: block;
+      }
+    }
+
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      padding: 16px;
+      overflow-y: auto;
+      z-index: 10;
+    }
+
+    @media (min-width: 768px) {
+      .main-content {
+        padding: 32px;
+      }
+    }
+
+    /* Header */
+    .header {
+      margin-bottom: 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header h1 {
+      font-size: 28px;
+      font-weight: bold;
+      color: var(--primary-dark);
+    }
+
+    .edit-profile-btn {
+      background-color: var(--accent-blue);
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+
+    .edit-profile-btn:hover {
+      background-color: #6a9eaf;
+    }
+
+    /* Profile Card */
+    .profile-card {
+      background-color: white;
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      margin-bottom: 32px;
+    }
+
+    .profile-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    .profile-avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background-color: var(--primary-light);
+      border: 6px solid var(--accent-yellow);
+      overflow: hidden;
+      position: relative;
+      margin-right: 24px;
+    }
+
+    .profile-avatar-face {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background-color: var(--skin-tone);
+      position: relative;
+    }
+
+    .profile-avatar-eye-left {
+      position: absolute;
+      top: 25%;
+      left: 25%;
+      width: 12px;
+      height: 12px;
+      background-color: black;
+      border-radius: 50%;
+    }
+
+    .profile-avatar-eye-right {
+      position: absolute;
+      top: 25%;
+      right: 25%;
+      width: 12px;
+      height: 12px;
+      background-color: black;
+      border-radius: 50%;
+    }
+
+    .profile-avatar-mouth {
+      position: absolute;
+      bottom: 25%;
+      left: 35%;
+      right: 35%;
+      height: 12px;
+      background-color: black;
+      border-radius: 6px;
+    }
+
+    .profile-info {
+      flex: 1;
+    }
+
+    .profile-name {
+      font-size: 24px;
+      font-weight: bold;
+      color: var(--primary-dark);
+      margin-bottom: 4px;
+    }
+
+    .profile-level {
+      background-color: var(--accent-yellow);
+      color: var(--primary-dark);
+      padding: 4px 12px;
+      border-radius: 16px;
+      font-weight: bold;
+      font-size: 14px;
+      display: inline-block;
+      margin-bottom: 8px;
+    }
+
+    .profile-bio {
+      color: var(--primary-medium);
+      margin-top: 8px;
+    }
+
+    .profile-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      border-top: 1px solid var(--primary-light);
+      padding-top: 24px;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 24px;
+      font-weight: bold;
+      color: var(--primary-dark);
+    }
+
+    .stat-label {
+      color: var(--primary-medium);
+      font-size: 14px;
+    }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      border-bottom: 2px solid var(--primary-light);
+      margin-bottom: 24px;
+    }
+
+    .tab {
+      padding: 12px 24px;
+      cursor: pointer;
+      font-weight: bold;
+      color: var(--primary-medium);
+      position: relative;
+    }
+
+    .tab.active {
+      color: var(--primary-dark);
+    }
+
+    .tab.active::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background-color: var(--accent-blue);
+      border-radius: 3px 3px 0 0;
+    }
+
+    /* Badges Section */
+    .section-title {
+      font-size: 20px;
+      font-weight: bold;
+      color: var(--primary-dark);
+      margin-bottom: 16px;
+    }
+
+    .badges-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .badge-card {
+      background-color: white;
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .badge-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 12px;
+      font-size: 32px;
+    }
+
+    .badge-title {
+      font-weight: bold;
+      margin-bottom: 4px;
+      color: var(--primary-dark);
+    }
+
+    .badge-date {
+      font-size: 12px;
+      color: var(--primary-medium);
+    }
+
+    .badge-locked {
+      opacity: 0.5;
+    }
+
+    /* Achievements List */
+    .achievements-list {
+      background-color: white;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      margin-bottom: 32px;
+    }
+
+    .achievement-item {
+      padding: 16px;
+      border-bottom: 1px solid var(--primary-light);
+      display: flex;
+      align-items: center;
+    }
+
+    .achievement-item:last-child {
+      border-bottom: none;
+    }
+
+    .achievement-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 16px;
+      flex-shrink: 0;
+      font-size: 24px;
+    }
+
+    .achievement-info {
+      flex: 1;
+    }
+
+    .achievement-title {
+      font-weight: bold;
+      margin-bottom: 4px;
+      color: var(--primary-dark);
+    }
+
+    .achievement-date {
+      font-size: 12px;
+      color: var(--primary-medium);
+    }
+
+    .achievement-xp {
+      background-color: var(--accent-yellow);
+      color: var(--primary-dark);
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-weight: bold;
+      font-size: 12px;
+    }
+
+    /* Friends */
+    .friends-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .friend-card {
+      background-color: white;
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .friend-avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      border: 4px solid var(--accent-green);
+      overflow: hidden;
+      position: relative;
+      margin-bottom: 12px;
+    }
+
+    .friend-avatar-face {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      position: relative;
+    }
+
+    .friend-name {
+      font-weight: bold;
+      margin-bottom: 4px;
+      color: var(--primary-dark);
+      text-align: center;
+    }
+
+    .friend-level {
+      font-size: 12px;
+      color: var(--primary-medium);
+      text-align: center;
+      margin-bottom: 8px;
+    }
+
+    .friend-challenge-btn {
+      background-color: var(--accent-green);
+      color: white;
+      border: none;
+      padding: 4px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    /* Learning Stats */
+    .learning-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .stat-card {
+      background-color: white;
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .stat-card-title {
+      font-weight: bold;
+      margin-bottom: 8px;
+      color: var(--primary-dark);
+      display: flex;
+      align-items: center;
+    }
+
+    .stat-card-icon {
+      margin-right: 8px;
+    }
+
+    .progress-bar {
+      height: 16px;
+      background-color: var(--primary-light);
+      border-radius: 8px;
+      overflow: hidden;
+      margin: 8px 0;
+    }
+
+    .progress-fill {
+      height: 100%;
+      border-radius: 8px;
+    }
+
+    .progress-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--primary-medium);
+    }
+
+    /* AI Tutor */
+    .ai-tutor {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 20;
+    }
+
+    .ai-tutor-button {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background-color: var(--accent-orange);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .ai-tutor-button:hover {
+      background-color: #d55d4a;
+    }
+
+    .ai-tutor-icon {
+      color: var(--primary-light);
+      font-size: 28px;
+    }
+
+    .ai-tutor-tooltip {
+      position: absolute;
+      bottom: 100%;
+      right: 0;
+      margin-bottom: 8px;
+      background-color: var(--primary-light);
+      color: var(--primary-dark);
+      border-radius: 8px;
+      padding: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+      white-space: nowrap;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+
+    .ai-tutor-button:hover .ai-tutor-tooltip {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <!-- Background village illustration -->
+    <div class="background"></div>
+    
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <!-- Avatar and Name -->
+      <div class="avatar-container">
+        <div class="avatar">
+          <div class="avatar-face">
+            <div class="avatar-eye-left"></div>
+            <div class="avatar-eye-right"></div>
+            <div class="avatar-mouth"></div>
+          </div>
+        </div>
+        <h3 class="avatar-name">Raju</h3>
+      </div>
+      
+      <!-- Navigation -->
+      <nav class="nav">
+        <a href="index.html" class="nav-item">
+          <div class="nav-icon">🏠</div>
+          <span class="nav-label">Home</span>
+        </a>
+        <a href="subjects.html" class="nav-item">
+          <div class="nav-icon">📚</div>
+          <span class="nav-label">Subjects</span>
+        </a>
+        <a href="#" class="nav-item">
+          <div class="nav-icon">🏆</div>
+          <span class="nav-label">Badges</span>
+        </a>
+        <a href="settings.html" class="nav-item">
+          <div class="nav-icon">⚙️</div>
+          <span class="nav-label">Settings</span>
+        </a>
+      </nav>
+      
+      <a href="#" class="map-button">
+        <div class="map-icon">📍</div>
+        <span class="map-label">Village Map</span>
+      </a>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+      <!-- Header -->
+      <div class="header">
+        <h1>My Profile</h1>
+        <button class="edit-profile-btn">Edit Profile</button>
+      </div>
+      
+      <!-- Profile Card -->
+      <div class="profile-card">
+        <div class="profile-header">
+          <div class="profile-avatar">
+            <div class="profile-avatar-face" style="background-color: var(--skin-tone);">
+              <div class="profile-avatar-eye-left"></div>
+              <div class="profile-avatar-eye-right"></div>
+              <div class="profile-avatar-mouth"></div>
+            </div>
+          </div>
+          <div class="profile-info">
+            <h2 class="profile-name">Raju Kumar</h2>
+            <div class="profile-level">Level 5 Scholar</div>
+            <p class="profile-bio">I love learning about nature and plants. I want to be a scientist when I grow up!</p>
+          </div>
+        </div>
+        
+        <div class="profile-stats">
+          <div class="stat-item">
+            <div class="stat-value">145</div>
+            <div class="stat-label">Total XP Points</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">12</div>
+            <div class="stat-label">Badges Earned</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">3</div>
+            <div class="stat-label">Day Streak</div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Tabs -->
+      <div class="tabs">
+        <div class="tab active">Badges</div>
+        <div class="tab">Achievements</div>
+        <div class="tab">Friends</div>
+        <div class="tab">Learning Stats</div>
+      </div>
+      
+      <!-- Badges Section -->
+      <h3 class="section-title">My Badges</h3>
+      <div class="badges-grid">
+        <div class="badge-card">
+          <div class="badge-icon" style="background-color: var(--accent-blue);">🏆</div>
+          <div class="badge-title">Math Star</div>
+          <div class="badge-date">Earned on Apr 2, 2025</div>
+        </div>
+        <div class="badge-card">
+          <div class="badge-icon" style="background-color: var(--accent-green);">🌿</div>
+          <div class="badge-title">Nature Explorer</div>
+          <div class="badge-date">Earned on Mar 28, 2025</div>
+        </div>
+        <div class="badge-card">
+          <div class="badge-icon" style="background-color: var(--accent-yellow);">📚</div>
+          <div class="badge-title">Bookworm</div>
+          <div class="badge-date">Earned on Apr 8, 2025</div>
+        </div>
+        <div class="badge-card">
+          <div class="badge-icon" style="background-color: var(--accent-orange);">🔍</div>
+          <div class="badge-title">Curious Mind</div>
+          <div class="badge-date">Earned on Mar 15, 2025</div>
+        </div>
+        <div class="badge-card">
+          <div class="badge-icon" style="background-color: var(--earth-brown);">🧠</div>
+          <div class="badge-title">Quick Thinker</div>
+          <div class="badge-date">Earned on Apr 1, 2025</div>
+        </div>
+        <div class="badge-card badge-locked">
+          <div class="badge-icon" style="background-color: #ccc;">❓</div>
+          <div class="badge-title">Mystery Badge</div>
+          <div class="badge-date">Keep learning to unlock!</div>
+        </div>
+      </div>
+      
+      <!-- Achievements List -->
+      <h3 class="section-title">Recent Achievements</h3>
+      <div class="achievements-list">
+        <div class="achievement-item">
+          <div class="achievement-icon" style="background-color: var(--accent-blue);">🎯</div>
+          <div class="achievement-info">
+            <div class="achievement-title">Completed "Addition with Pictures" lesson</div>
+            <div class="achievement-date">April 10, 2025</div>
+          </div>
+          <div class="achievement-xp">+15 XP</div>
+        </div>
+        <div class="achievement-item">
+          <div class="achievement-icon" style="background-color: var(--accent-yellow);">📊</div>
+          <div class="achievement-info">
+            <div class="achievement-title">3-Day Learning Streak</div>
+            <div class="achievement-date">April 9, 2025</div>
+          </div>
+          <div class="achievement-xp">+20 XP</div>
+        </div>
+        <div class="achievement-item">
+          <div class="achievement-icon" style="background-color: var(--accent-green);">🌱</div>
+          <div class="achievement-info">
+            <div class="achievement-title">Completed "Plant Life Cycle" quiz with 100% score</div>
+            <div class="achievement-date">April 8, 2025</div>
+          </div>
+          <div class="achievement-xp">+25 XP</div>
+        </div>
+        <div class="achievement-item">
+          <div class="achievement-icon" style="background-color: var(--accent-orange);">🎨</div>
+          <div class="achievement-info">
+            <div class="achievement-title">Created first digital art project</div>
+            <div class="achievement-date">April 7, 2025</div>
+          </div>
+          <div class="achievement-xp">+10 XP</div>
+        </div>
+        <div class="achievement-item">
+          <div class="achievement-icon" style="background-color: var(--earth-brown);">📖</div>
+          <div class="achievement-info">
+            <div class="achievement-title">Read "The Elephant's Child" story</div>
+            <div class="achievement-date">April 5, 2025</div>
+          </div>
+          <div class="achievement-xp">+10 XP</div>
+        </div>
+      </div>
+      
+      <!-- Friends Section -->
+      <h3 class="section-title">My Village Friends</h3>
+      <div class="friends-grid">
+        <div class="friend-card">
+          <div class="friend-avatar">
+            <div class="friend-avatar-face" style="background-color: #ffcba4;"></div>
+          </div>
+          <div class="friend-name">Meena</div>
+          <div class="friend-level">Level 6</div>
+          <button class="friend-challenge-btn">Challenge</button>
+        </div>
+        <div class="friend-card">
+          <div class="friend-avatar">
+            <div class="friend-avatar-face" style="background-color: #e8bc9c;"></div>
+          </div>
+          <div class="friend-name">Ayush</div>
+          <div class="friend-level">Level 4</div>
+          <button class="friend-challenge-btn">Challenge</button>
+        </div>
+        <div class="friend-card">
+          <div class="friend-avatar">
+            <div class="friend-avatar-face" style="background-color: #d2a78f;"></div>
+          </div>
+          <div class="friend-name">Priya</div>
+          <div class="friend-level">Level 7</div>
+          <button class="friend-challenge-btn">Challenge</button>
+        </div>
+        <div class="friend-card">
+          <div class="friend-avatar">
+            <div class="friend-avatar-face" style="background-color: #c99d83;"></div>
+          </div>
+          <div class="friend-name">Rahul</div>
+          <div class="friend-level">Level 3</div>
+          <button class="friend-challenge-btn">Challenge</button>
+        </div>
+      </div>
+      
+      <!-- Learning Stats -->
+      <h3 class="section-title">My Learning Stats</h3>
+      <div class="learning-stats">
+        <div class="stat-card">
+          <div class="stat-card-title">
+            <span class="stat-card-icon">123</span>
+            Math Progress
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: 85%; background-color: var(--accent-blue);"></div>
+          </div>
+          <div class="progress-labels">
+            <span>0%</span>
+            <span>85%</span>
+            <span>100%</span>
+          </div>
+          <p>You're excelling in addition and counting!</p>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-title">
+            <span class="stat-card-icon">🧪</span>
+            Science Progress
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: 60%; background-color: var(--accent-green);"></div>
+          </div>
+          <div class="progress-labels">
+            <span>0%</span>
+            <span>60%</span>
+            <span>100%</span>
+          </div>
+          <p>Plants and animals are your strengths.</p>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-title">
+            <span class="stat-card-icon">📚</span>
+            Language Progress
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: 40%; background-color: var(--accent-yellow);"></div>
+          </div>
+          <div class="progress-labels">
+            <span>0%</span>
+            <span>40%</span>
+            <span>100%</span>
+          </div>
+          <p>Keep practicing your reading skills!</p>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-title">
+            <span class="stat-card-icon">⏰</span>
+            Time Spent Learning
+          </div>
+          <p style="margin-top: 12px; font-size: 18px; font-weight: bold;">Total: 14 hours</p>
+          <p>This week: 3.5 hours</p>
+          <p>Average per day: 30 minutes</p>
+          <p style="margin-top: 8px;">Best studying day: Saturday</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- AI Tutor Icon -->
+    <div class="ai-tutor">
+      <div class="ai-tutor-button">
+        <div class="ai-tutor-icon">🎤</div>
+        <div class="ai-tutor-tooltip">
+          <p class="font-bold">Ask me anything!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
