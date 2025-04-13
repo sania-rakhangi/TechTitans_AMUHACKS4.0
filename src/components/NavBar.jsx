@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { supabase } from "../utils/supabaseClient";
 
-const NavBar = ({ activePage }) => {
+const NavBar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [language, setLanguage] = useState("English");
   const [langDropdownOpen, setLangDropdownOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleResize = () => {
@@ -26,6 +30,28 @@ const NavBar = ({ activePage }) => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [langDropdownOpen]);
 
+  // Handle auth state
+  useEffect(() => {
+    const checkSession = async () => {
+      const { data } = await supabase.auth.getSession();
+      setIsLoggedIn(!!data.session);
+    };
+
+    const { data: listener } = supabase.auth.onAuthStateChange(() => {
+      checkSession();
+    });
+
+    checkSession();
+
+    return () => listener?.subscription?.unsubscribe?.();
+  }, []);
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    setIsLoggedIn(false);
+    navigate("/");
+  };
+
   const navItems = [
     { name: "Homepage", path: "/" },
     { name: "Student Dashboard", path: "/student-dashboard" },
@@ -46,7 +72,7 @@ const NavBar = ({ activePage }) => {
   return (
     <nav className="bg-slate-800 text-white shadow-md z-50 relative">
       <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
-        {/* Left: Logo */}
+        {/* Logo */}
         <div className="text-2xl font-bold font-[Comfortaa]">
           <Link
             to="/"
@@ -56,20 +82,20 @@ const NavBar = ({ activePage }) => {
           </Link>
         </div>
 
-        {/* Center: Nav Items (hidden on mobile) */}
+        {/* Center: Nav Items */}
         <ul className="hidden md:flex space-x-8 text-lg">
           {navItems.map((item) => (
             <li key={item.name}>
               <Link
                 to={item.path}
                 className={`relative transition-colors ${
-                  activePage === item.name
+                  location.pathname === item.path
                     ? "text-pink-300 font-semibold"
                     : "text-white"
                 } hover:text-pink-300`}
               >
                 {item.name}
-                {activePage === item.name && (
+                {location.pathname === item.path && (
                   <span className="absolute left-0 -bottom-1 w-full h-0.5 bg-pink-300"></span>
                 )}
               </Link>
@@ -77,7 +103,7 @@ const NavBar = ({ activePage }) => {
           ))}
         </ul>
 
-        {/* Right: Language Selector + Hamburger */}
+        {/* Right: Language + Auth + Hamburger */}
         <div className="flex items-center space-x-4">
           {/* Language Selector */}
           <div className="relative language-selector">
@@ -121,34 +147,51 @@ const NavBar = ({ activePage }) => {
             )}
           </div>
 
-          {/* Hamburger Menu */}
+          {/* Auth Buttons */}
+          <div className="hidden md:flex space-x-2">
+            {isLoggedIn ? (
+              <button
+                onClick={handleLogout}
+                className="px-3 py-1 bg-pink-300 text-slate-800 rounded hover:bg-pink-400 transition"
+              >
+                Logout
+              </button>
+            ) : (
+              <>
+                <Link
+                  to="/login"
+                  className="px-3 py-1 border border-white rounded hover:bg-white hover:text-slate-800 transition"
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/signup"
+                  className="px-3 py-1 bg-pink-300 text-slate-800 rounded hover:bg-pink-400 transition"
+                >
+                  Sign Up
+                </Link>
+              </>
+            )}
+          </div>
+
+          {/* Hamburger Icon */}
           <div
             className="block md:hidden cursor-pointer"
             onClick={() => setMenuOpen(!menuOpen)}
           >
-            <div className={`w-8 h-5 relative ${menuOpen ? "open" : ""}`}>
-              <span
-                className="absolute top-0 left-0 w-full h-0.5 bg-white transition-transform duration-300"
-                style={
-                  menuOpen
-                    ? { transform: "rotate(45deg) translate(5px, 5px)" }
-                    : {}
-                }
-              ></span>
-              <span
-                className={`absolute top-2 left-0 w-full h-0.5 bg-white transition-opacity ${
-                  menuOpen ? "opacity-0" : "opacity-100"
-                }`}
-              ></span>
-              <span
-                className="absolute bottom-0 left-0 w-full h-0.5 bg-white transition-transform duration-300"
-                style={
-                  menuOpen
-                    ? { transform: "rotate(-45deg) translate(6px, -6px)" }
-                    : {}
-                }
-              ></span>
-            </div>
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={2}
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M4 6h16M4 12h16M4 18h16"
+              />
+            </svg>
           </div>
         </div>
       </div>
@@ -162,7 +205,7 @@ const NavBar = ({ activePage }) => {
               to={item.path}
               onClick={() => setMenuOpen(false)}
               className={`block text-lg ${
-                activePage === item.name
+                location.pathname === item.path
                   ? "text-pink-300 font-semibold"
                   : "text-white"
               } hover:text-pink-300 transition-colors`}
@@ -170,6 +213,38 @@ const NavBar = ({ activePage }) => {
               {item.name}
             </Link>
           ))}
+
+          {/* Auth for Mobile */}
+          <div className="pt-2 space-y-2">
+            {isLoggedIn ? (
+              <button
+                onClick={() => {
+                  setMenuOpen(false);
+                  handleLogout();
+                }}
+                className="block text-white hover:text-pink-300 transition"
+              >
+                Logout
+              </button>
+            ) : (
+              <>
+                <Link
+                  to="/login"
+                  onClick={() => setMenuOpen(false)}
+                  className="block text-white hover:text-pink-300 transition"
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/signup"
+                  onClick={() => setMenuOpen(false)}
+                  className="block text-white hover:text-pink-300 transition"
+                >
+                  Sign Up
+                </Link>
+              </>
+            )}
+          </div>
         </div>
       )}
     </nav>

@@ -1,12 +1,13 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Homepage from "./pages/Homepage";
+import Homepage from "./pages/HomePage";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import TeacherPortal from "./pages/TeacherPortal";
 import StudentDashboard from "./pages/Studentdashboard/StudentPortal";
 import Index from "./pages/Community/Index";
 import FamilyLearning from "./pages/FamilyLearning";
+import NavBar from "./components/NavBar";
 
 // import TeacherPortal from "./TeacherPortal";
 // import FamilyLearning from "./FamilyLearning";
@@ -22,6 +23,7 @@ const App = () => {
   return (
     <Router>
       <div className="app">
+        <NavBar />
         <Routes>
           <Route path="/" element={<Homepage />} />
           <Route path="/login" element={<Login />} />
