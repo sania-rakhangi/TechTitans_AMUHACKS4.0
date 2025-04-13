@@ -147,7 +147,7 @@ bash
 
 # Clone the repository
 
-git clone https://github.com/yourusername/gaonlearn.git
+git clone https://github.com/sania-rakhangi/TechTitans_AMUHACKS4.0.git
 
 # Install dependencies
 
@@ -172,6 +172,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - _Niraj Mahajan_ - Backend Developer
 - _Tithi Talele_ - UI/UX Designer
 
-## 📞 Contact
 
-Website: [https://gaonlearn.org](https://gaonlearn.org)
