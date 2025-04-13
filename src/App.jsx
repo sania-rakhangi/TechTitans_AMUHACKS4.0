@@ -5,6 +5,9 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import TeacherPortal from "./pages/TeacherPortal";
 import StudentDashboard from "./pages/Studentdashboard/StudentPortal";
+import Index from "./pages/Community/Index";
+import FamilyLearning from "./pages/FamilyLearning";
+
 // import TeacherPortal from "./TeacherPortal";
 // import FamilyLearning from "./FamilyLearning";
 // import Community from "./Community";
@@ -25,8 +28,8 @@ const App = () => {
           <Route path="/signup" element={<Signup />} />
           <Route path="/teacher-portal" element={<TeacherPortal />} />
           <Route path="/student-dashboard" element={<StudentDashboard />} />
-          
-          
+          <Route path="/community" element={<Index />} />
+          <Route path="/family-learning" element={<FamilyLearning />} />
           {/* <Route path="/student-dashboard" element={<StudentDashboard />} />
           <Route path="/teacher-portal" element={<TeacherPortal />} />
           <Route path="/family-learning" element={<FamilyLearning />} />
