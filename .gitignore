@@ -1,35 +1,24 @@
-# dependencies
-/node_modules
-/.pnp
-.pnp.js
-
-# production
-/dist
-/build
-
-# testing
-/coverage
-
-# environment variables
-.env
-.env.*.local
-
-# local Supabase stuff (if using Supabase CLI)
-.supabase
-
-# logs
+# Logs
+logs
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
+lerna-debug.log*
 
-# OS files
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
 .DS_Store
-Thumbs.db
-
-# editor folders
-.vscode/
-.idea/
-
-# other
-*.log
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

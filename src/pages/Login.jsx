@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { supabase } from "../utils/supabaseClient";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -41,7 +40,7 @@ const Login = () => {
     return newErrors;
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     const validationErrors = validateForm();
     if (Object.keys(validationErrors).length > 0) {
@@ -50,26 +49,29 @@ const Login = () => {
     }
 
     setIsSubmitting(true);
-
-    const { error } = await supabase.auth.signInWithPassword({
-      email: formData.email,
-      password: formData.password,
-    });
-
-    if (error) {
-      setErrors({ password: error.message });
+    setTimeout(() => {
+      console.log("Login submitted:", formData);
       setIsSubmitting(false);
-    } else {
       navigate("/student-dashboard");
-    }
+    }, 1500);
   };
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center bg-gradient-to-b from-accent-blue to-accent-green p-6 font-comfortaa">
+    <div className="relative min-h-screen flex items-center justify-center bg-gradient-to-b from-sky-300 to-green-200 p-6">
+      {/* Background layers for rural effect */}
+      <div className="absolute inset-0 z-0">
+        <div className="h-[60%] bg-gradient-to-b from-blue-300 to-blue-100"></div>
+        <div className="absolute bottom-[40%] w-full h-[30%] bg-green-500 clip-mountain"></div>
+        <div className="absolute bottom-0 w-full h-[40%] bg-green-300 clip-hill"></div>
+        <div className="absolute bottom-[20%] right-[15%] w-[150px] h-[120px] bg-yellow-400">
+          <div className="absolute -top-10 w-full h-10 bg-orange-400 clip-roof"></div>
+        </div>
+      </div>
+
       {/* Login Card */}
       <div className="relative z-10 w-full max-w-md bg-white rounded-xl shadow-lg p-8 md:p-10">
         <div className="text-center mb-8">
-          <Link to="/" className="text-3xl font-bold text-primary-dark">
+          <Link to="/" className="text-3xl font-bold text-gray-800">
             GaonLearn
           </Link>
           <h2 className="text-xl font-semibold text-gray-700 mt-2">
@@ -171,6 +173,23 @@ const Login = () => {
               Sign up
             </Link>
           </p>
+
+          {/* OR */}
+          <div className="my-6 flex items-center justify-center text-gray-400">
+            <hr className="flex-grow border-t border-gray-300" />
+            <span className="mx-3 text-sm">or</span>
+            <hr className="flex-grow border-t border-gray-300" />
+          </div>
+
+          {/* Alternative buttons */}
+          <div className="space-y-3">
+            <button className="w-full py-2 border border-gray-300 rounded-full hover:bg-gray-100 transition">
+              Sign in with Google
+            </button>
+            <button className="w-full py-2 border border-gray-300 rounded-full hover:bg-gray-100 transition">
+              Sign in with Phone
+            </button>
+          </div>
         </div>
       </div>
     </div>

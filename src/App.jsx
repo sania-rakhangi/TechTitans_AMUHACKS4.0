@@ -4,7 +4,7 @@ import Homepage from "./pages/Homepage";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import TeacherPortal from "./pages/TeacherPortal";
-// import StudentDashboard from "./StudentDashboard";
+import StudentDashboard from "./pages/Studentdashboard/StudentPortal";
 // import TeacherPortal from "./TeacherPortal";
 // import FamilyLearning from "./FamilyLearning";
 // import Community from "./Community";
@@ -19,7 +19,6 @@ const App = () => {
   return (
     <Router>
       <div className="app">
-        <NavBar />
         <Routes>
           <Route path="/" element={<Homepage />} />
           <Route path="/login" element={<Login />} />
